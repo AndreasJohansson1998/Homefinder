@@ -23,6 +23,11 @@ namespace House_API.Repositories
             return await _context.Houses.ProjectTo<HouseViewModel>(_mapper.ConfigurationProvider).ToListAsync();;
         }
 
+        public async Task<HouseViewModel?> GetHouseByIdAsync(int id)
+        {
+            return await _context.Houses.Where(h => h.HouseId == id).ProjectTo<HouseViewModel>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+        }
+
         public async Task<HouseViewModel> AddHouseAsync(HouseViewModel model)
         {
             await _context.Houses.AddAsync(_mapper.Map<House>(model));

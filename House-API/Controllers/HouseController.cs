@@ -20,6 +20,19 @@ namespace House_API.Controllers
             return Ok(await _houseRepository.ListAllHousesAsync());
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<HouseViewModel>> GetHouseById(int id)
+        {
+            var response = await _houseRepository.GetHouseByIdAsync(id);
+
+            if (response == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(response);
+        }
+
         [HttpPost]
         public async Task<ActionResult<HouseViewModel>> AddHouse(HouseViewModel model)
         {
