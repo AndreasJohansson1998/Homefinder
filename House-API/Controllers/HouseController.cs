@@ -42,6 +42,19 @@ namespace House_API.Controllers
             return StatusCode(201, response);
         }
 
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateHouse(int id, UpdateHouseViewModel model)
+        {
+            _houseRepository.UpdateHouse(id, model);
+            
+            if (await _houseRepository.SaveAllAsync())
+            {
+                return NoContent();
+            }
+
+            return StatusCode(500);
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteHouse(int id)
         {

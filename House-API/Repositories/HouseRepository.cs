@@ -33,6 +33,17 @@ namespace House_API.Repositories
             await _context.Houses.AddAsync(_mapper.Map<House>(model));
             return model;
         }
+
+        public async void UpdateHouse(int id, UpdateHouseViewModel model)
+        {
+            var house = await _context.Houses.FindAsync(id);
+            _mapper.Map(model, house);
+
+            if (house != null)
+            {
+                _context.Houses.Update(house);
+            }
+        }
         
         public void DeleteHouse(int id)
         {

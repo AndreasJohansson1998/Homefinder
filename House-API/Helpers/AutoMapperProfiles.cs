@@ -10,6 +10,7 @@ namespace House_API.Helpers
         {
             CreateMap<House, HouseViewModel>();
             CreateMap<HouseViewModel, House>();
+            CreateMap<UpdateHouseViewModel, House>();
         }
     }
 }
