@@ -1,4 +1,7 @@
 using House_API.Data;
+using House_API.Helpers;
+using House_API.Interfaces;
+using House_API.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<HouseContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Sqlite"))
 );
+builder.Services.AddScoped<IHouseRepository, HouseRepository>();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
