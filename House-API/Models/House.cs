@@ -2,19 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace House_API.Models
 {
     public class House
     {
-          public int HouseId { get; set; }
-        // public string  UserId { get; set; }
+        public int HouseId { get; set; }
+        public IdentityUser? User { get; set; }
 
-        // public DefaultUser User { get; set; }
+        public string? UserId { get; set; }
 
-        public  HousingType HousingType { get; set; }
+        public HousingType HousingType { get; set; }
 
-        public  FormAssignment FormAssignment { get; set; }
+        public FormAssignment FormAssignment { get; set; }
 
         public string? Address { get; set; }
 

@@ -3,6 +3,7 @@ using System;
 using House_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace House_API.Migrations
 {
     [DbContext(typeof(HouseContext))]
-    partial class HouseContextModelSnapshot : ModelSnapshot
+    [Migration("20220506082350_Added authentication and identity")]
+    partial class Addedauthenticationandidentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.4");
@@ -56,9 +58,6 @@ namespace House_API.Migrations
                     b.Property<float>("RoomAmount")
                         .HasColumnType("REAL");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("VisitingDate")
                         .HasColumnType("TEXT");
 
@@ -69,8 +68,6 @@ namespace House_API.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("HouseId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Houses");
                 });
@@ -265,15 +262,6 @@ namespace House_API.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("House_API.Models.House", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

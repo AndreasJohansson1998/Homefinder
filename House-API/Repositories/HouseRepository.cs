@@ -4,6 +4,8 @@ using House_API.Data;
 using House_API.Interfaces;
 using House_API.Models;
 using House_API.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace House_API.Repositories
@@ -18,9 +20,10 @@ namespace House_API.Repositories
             _context = context;
             _mapper = mapper;
         }
+
         public async Task<List<HouseViewModel>> ListAllHousesAsync()
         {
-            return await _context.Houses.ProjectTo<HouseViewModel>(_mapper.ConfigurationProvider).ToListAsync();;
+            return await _context.Houses.ProjectTo<HouseViewModel>(_mapper.ConfigurationProvider).ToListAsync(); ;
         }
 
         public async Task<HouseViewModel?> GetHouseByIdAsync(int id)
@@ -28,6 +31,7 @@ namespace House_API.Repositories
             return await _context.Houses.Where(h => h.HouseId == id).ProjectTo<HouseViewModel>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
         }
 
+        [Authorize(Policy = "Realtor")]
         public async Task<HouseViewModel> AddHouseAsync(HouseViewModel model)
         {
             await _context.Houses.AddAsync(_mapper.Map<House>(model));
@@ -47,6 +51,7 @@ namespace House_API.Repositories
 
             _context.Houses.Update(response);
         }
+
         
         public async Task DeleteHouseAsync(int id)
         {
