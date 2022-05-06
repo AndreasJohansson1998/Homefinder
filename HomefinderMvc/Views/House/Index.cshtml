@@ -1,0 +1,18 @@
+@model IEnumerable<HomefinderMvc.ViewModels.HouseViewModel>
+
+@{
+    ViewData["Title"] = "Houses";
+}
+
+
+<article>
+    <section>
+        @foreach (var house in Model!)
+        {
+            <div>
+                <a>@house.HouseId</a>
+                <p>@house.Address @house.City</p>
+            </div>
+        }
+    </section>
+</article>

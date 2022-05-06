@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using House_API.Models;
-using Microsoft.AspNetCore.Identity;
+using HomefinderMvc.Models;
+using System.Text.Json.Serialization;
 
-namespace House_API.ViewModels
+namespace HomefinderMvc.ViewModels
 {
     public class HouseViewModel
     {
         public int HouseId { get; set; }
-        public string? UserId { get; set; }
-        public IdentityUser? User { get; set; }
 
         public HousingType HousingType { get; set; }
 
