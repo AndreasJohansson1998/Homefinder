@@ -37,35 +37,49 @@ namespace House_API.Controllers
         public async Task<ActionResult<HouseViewModel>> AddHouse(HouseViewModel model)
         {
             var response = await _houseRepository.AddHouseAsync(model);
-            await _houseRepository.SaveAllAsync();
 
-            return StatusCode(201, response);
+            if (await _houseRepository.SaveAllAsync())
+            {
+                return StatusCode(201, response);
+            }
+
+            return StatusCode(500);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateHouse(int id, UpdateHouseViewModel model)
         {
-            _houseRepository.UpdateHouse(id, model);
-            
-            if (await _houseRepository.SaveAllAsync())
+            try
             {
-                return NoContent();
+                await _houseRepository.UpdateHouseAsync(id, model);
+                if (await _houseRepository.SaveAllAsync())
+                {
+                    return NoContent();
+                }
+                return StatusCode(500);
             }
-
-            return StatusCode(500);
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteHouse(int id)
         {
-            _houseRepository.DeleteHouse(id);
-
-            if (await _houseRepository.SaveAllAsync())
+            try
             {
-                return NoContent();
+                await _houseRepository.DeleteHouseAsync(id);
+                if (await _houseRepository.SaveAllAsync())
+                {
+                    return NoContent();
+                }
+                return StatusCode(500);
             }
-
-            return StatusCode(500);
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
