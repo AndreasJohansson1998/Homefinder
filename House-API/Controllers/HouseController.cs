@@ -50,12 +50,7 @@ namespace House_API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateHouse(int id, UpdateHouseViewModel model)
         {
-
-            _houseRepository.UpdateHouse(id, model);
-
-            if (await _houseRepository.SaveAllAsync())
             try
-
             {
                 await _houseRepository.UpdateHouseAsync(id, model);
                 if (await _houseRepository.SaveAllAsync())
