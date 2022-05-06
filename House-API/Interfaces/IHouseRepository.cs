@@ -9,5 +9,10 @@ namespace House_API.Interfaces
     public interface IHouseRepository
     {
          public Task<List<HouseViewModel>> ListAllHousesAsync();
+         public Task<HouseViewModel?> GetHouseByIdAsync(int id);
+         public Task<HouseViewModel> AddHouseAsync(HouseViewModel model);
+         public void UpdateHouse(int id, UpdateHouseViewModel model);
+         public void DeleteHouse(int id);
+         public Task<bool> SaveAllAsync();
     }
 }
