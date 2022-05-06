@@ -38,24 +38,31 @@ namespace House_API.Repositories
             return model;
         }
 
-        public async void UpdateHouse(int id, UpdateHouseViewModel model)
+        public async Task UpdateHouseAsync(int id, UpdateHouseViewModel model)
         {
-            var house = await _context.Houses.FindAsync(id);
-            _mapper.Map(model, house);
+            var response = await _context.Houses.FindAsync(id);
 
-            if (house != null)
+            if (response == null)
             {
-                _context.Houses.Update(house);
+                throw new Exception($"Failed to update object with id = {id}");
             }
+
+            _mapper.Map(model, response);
+
+            _context.Houses.Update(response);
         }
 
-        public void DeleteHouse(int id)
+        
+        public async Task DeleteHouseAsync(int id)
         {
-            var house = _context.Houses.Find(id);
-            if (house != null)
+            var response = await _context.Houses.FindAsync(id);
+
+            if (response == null)
             {
-                _context.Houses.Remove(house);
+                throw new Exception($"Failed to delete object with id = {id}");
             }
+
+            _context.Houses.Remove(response);
         }
 
         public async Task<bool> SaveAllAsync()
