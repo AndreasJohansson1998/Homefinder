@@ -53,11 +53,15 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization(options =>
 {
+    options.AddPolicy("User", policy =>
+        policy.RequireClaim("User"));
     options.AddPolicy("Realtor", policy =>
         policy.RequireClaim("Realtor"));
 });
 
 builder.Services.AddScoped<IHouseRepository, HouseRepository>();
+builder.Services.AddScoped<IInterestRepository, InterestRepository>();
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
 builder.Services.AddControllers();

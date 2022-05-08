@@ -1,20 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+using House_API.Models;
 
-namespace House_API.Models
+namespace House_API.ViewModels
 {
-    public class House
+    public class PostHouseViewModel
     {
-        public int HouseId { get; set; }
-        [ForeignKey("UserId")]
-        public IdentityUser? User { get; set; }
-
-        public string? UserId { get; set; }
-
         public HousingType HousingType { get; set; }
 
         public FormAssignment FormAssignment { get; set; }
