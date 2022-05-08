@@ -7,6 +7,8 @@ namespace House_API.Data
     public class HouseContext : IdentityDbContext
     {
         public DbSet<House> Houses => Set<House>();
+        public DbSet<Interest> Interests => Set<Interest>();
+        
         public HouseContext(DbContextOptions<HouseContext> options) : base(options)
         {
         }
