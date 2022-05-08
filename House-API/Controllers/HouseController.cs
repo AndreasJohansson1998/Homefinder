@@ -1,5 +1,6 @@
 using House_API.Interfaces;
 using House_API.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,13 @@ namespace House_API.Controllers
     [Route("api/v1/houses")]
     public class HouseController : ControllerBase
     {
-        IHouseRepository _houseRepository;
-        public HouseController(IHouseRepository houseRepository)
+        private readonly IHouseRepository _houseRepository;
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public HouseController(IHouseRepository houseRepository, UserManager<IdentityUser> userManager)
         {
             _houseRepository = houseRepository;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -35,9 +39,17 @@ namespace House_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<HouseViewModel>> AddHouse(HouseViewModel model)
+        [Authorize(policy: "Realtor")]
+        public async Task<ActionResult<PostHouseViewModel>> AddHouse(PostHouseViewModel model)
         {
-            var response = await _houseRepository.AddHouseAsync(model);
+            var user = await _userManager.FindByNameAsync(User!.Identity!.Name);
+
+            if (user == null)
+            {
+                return StatusCode(500);
+            }
+
+            var response = await _houseRepository.AddHouseAsync(model, user);
 
             if (await _houseRepository.SaveAllAsync())
             {

@@ -31,10 +31,11 @@ namespace House_API.Repositories
             return await _context.Houses.Where(h => h.HouseId == id).ProjectTo<HouseViewModel>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
         }
 
-        [Authorize(Policy = "Realtor")]
-        public async Task<HouseViewModel> AddHouseAsync(HouseViewModel model)
+        public async Task<PostHouseViewModel> AddHouseAsync(PostHouseViewModel model, IdentityUser user)
         {
-            await _context.Houses.AddAsync(_mapper.Map<House>(model));
+            var newHouse = _mapper.Map<House>(model);
+            newHouse.User = user;
+            await _context.Houses.AddAsync(newHouse);
             return model;
         }
 
