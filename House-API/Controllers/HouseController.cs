@@ -25,6 +25,14 @@ namespace House_API.Controllers
             return Ok(await _houseRepository.ListAllHousesAsync());
         }
 
+        [HttpGet("filtered")]
+        public async Task<ActionResult<HouseViewModel>> ListFilteredHouses(string? citySearch, int? minSize, int? maxSize,
+             int? minRooms, int? maxRooms, int? minPrice, int? maxPrice)
+        {
+            return Ok(await _houseRepository.ListFilteredHousesAsync(citySearch, minSize, maxSize, minRooms,
+                maxRooms, minPrice, maxPrice));
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<HouseViewModel>> GetHouseById(int id)
         {

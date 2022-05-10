@@ -26,6 +26,34 @@ namespace House_API.Repositories
             return await _context.Houses.ProjectTo<HouseViewModel>(_mapper.ConfigurationProvider).ToListAsync(); ;
         }
 
+        public async Task<List<HouseViewModel>> ListFilteredHousesAsync(string? citySearch, int? minSize, int? maxSize,
+            int? minRooms, int? maxRooms, int? minPrice, int? maxPrice)
+        {
+            IQueryable<House> query = _context.Houses;
+
+            if (minRooms != null || maxRooms != null)
+            {
+                query = query.Where(h => h.RoomAmount >= (minRooms ?? 0) && h.RoomAmount <= (maxRooms ?? int.MaxValue));
+            }
+
+            if (minSize != null || maxSize != null)
+            {
+                query = query.Where(h => h.LivingArea >= (minSize ?? 0) && h.LivingArea <= (maxSize ?? int.MaxValue));
+            }
+
+            if (minPrice != null || maxPrice != null)
+            {
+                query = query.Where(h => h.Price >= (minPrice ?? 0) && h.Price <= (maxPrice ?? int.MaxValue));
+            }
+
+            if (!string.IsNullOrEmpty(citySearch))
+            {
+                query = query.Where(h => h.City != null).Where(h => h.City!.ToLower().Contains(citySearch.ToLower()));
+            }
+
+            return await query.ProjectTo<HouseViewModel>(_mapper.ConfigurationProvider).ToListAsync();
+        }
+
         public async Task<HouseViewModel?> GetHouseByIdAsync(int id)
         {
             return await _context.Houses.Where(h => h.HouseId == id).ProjectTo<HouseViewModel>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();

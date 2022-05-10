@@ -6,6 +6,8 @@ namespace House_API.Interfaces
     public interface IHouseRepository
     {
         public Task<List<HouseViewModel>> ListAllHousesAsync();
+        public Task<List<HouseViewModel>> ListFilteredHousesAsync(string? citySearch, int? minSize, int? maxSize,
+            int? minRooms, int? maxRooms, int? minPrice, int? maxPrice);
         public Task<HouseViewModel?> GetHouseByIdAsync(int id);
         public Task<PostHouseViewModel> AddHouseAsync(PostHouseViewModel model, IdentityUser user);
         public Task UpdateHouseAsync(int id, UpdateHouseViewModel model);
